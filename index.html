@@ -1,255 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CI/CD Pipeline Project</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevOps CI/CD Pipeline</title>
 
-    body {
-      background: #f4f7fb;
-      color: #222;
-      line-height: 1.6;
-    }
+<style>
+:root {
+    --bg: #0b0f19;
+    --card: rgba(255,255,255,0.05);
+    --border: rgba(255,255,255,0.1);
+    --accent: #00f5ff;
+    --gradient: linear-gradient(135deg, #00f5ff, #7c3aed);
+}
 
-    header {
-      background: linear-gradient(135deg, #0f172a, #1d4ed8);
-      color: white;
-      padding: 60px 20px;
-      text-align: center;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    header h1 {
-      font-size: 2.8rem;
-      margin-bottom: 15px;
-    }
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: white;
+    overflow-x: hidden;
+}
 
-    header p {
-      font-size: 1.2rem;
-      max-width: 700px;
-      margin: auto;
-    }
+/* NAVBAR */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 10%;
+    backdrop-filter: blur(10px);
+}
 
-    nav {
-      background: #111827;
-      padding: 15px;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+nav h1 {
+    color: var(--accent);
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
-    }
+nav a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+}
 
-    nav a:hover {
-      color: #60a5fa;
-    }
+/* HERO */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10%;
+}
 
-    section {
-      padding: 60px 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
+.hero h2 {
+    font-size: 3rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    color: transparent;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #1d4ed8;
-      font-size: 2rem;
-    }
+.hero p {
+    margin: 20px 0;
+    max-width: 500px;
+    color: #94a3b8;
+}
 
-    .card-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-    }
+.btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    background: var(--gradient);
+    border: none;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      transition: transform 0.3s ease;
-    }
+/* CARDS */
+.section {
+    padding: 80px 10%;
+}
 
-    .card:hover {
-      transform: translateY(-5px);
-    }
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
 
-    .card h3 {
-      margin-bottom: 15px;
-      color: #0f172a;
-    }
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(15px);
+    padding: 25px;
+    border-radius: 15px;
+    transition: 0.3s;
+}
 
-    .workflow {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
+.card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent);
+}
 
-    .workflow ol {
-      padding-left: 20px;
-    }
+/* PIPELINE */
+.pipeline {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
 
-    .workflow li {
-      margin-bottom: 12px;
-    }
+.stage {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    text-align: center;
+    position: relative;
+}
 
-    .tools-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-    }
+.stage::after {
+    content: '→';
+    position: absolute;
+    right: -15px;
+    top: 40%;
+    font-size: 1.5rem;
+}
 
-    .tool {
-      background: #dbeafe;
-      color: #1e3a8a;
-      padding: 12px 20px;
-      border-radius: 25px;
-      font-weight: bold;
-    }
+.stage:last-child::after {
+    display: none;
+}
 
-    footer {
-      background: #0f172a;
-      color: white;
-      text-align: center;
-      padding: 25px 15px;
-      margin-top: 40px;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 25px;
-      padding: 12px 22px;
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-
-    .btn:hover {
-      background: #1d4ed8;
-    }
-  </style>
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 30px;
+    border-top: 1px solid var(--border);
+    margin-top: 50px;
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    <h1>CI/CD Pipeline Project</h1>
+<nav>
+    <h1>DevOps</h1>
+    <div>
+        <a href="#">Home</a>
+        <a href="#">Pipeline</a>
+        <a href="#">Architecture</a>
+        <a href="#">Contact</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <h2>CI/CD Pipeline Automation</h2>
     <p>
-      A modern web presentation of my Continuous Integration and Continuous Deployment pipeline,
-      showing how code moves from development to production through automated workflows.
+        Automated deployment pipeline using GitHub, AWS EC2, and Linux server configuration.
+        Designed for zero-downtime deployments and scalable infrastructure.
     </p>
-    <a href="#workflow" class="btn">Explore Pipeline</a>
-  </header>
+    <button class="btn">View Live Project</button>
+</section>
 
-  <nav>
-    <a href="#about">About</a>
-    <a href="#stages">Stages</a>
-    <a href="#tools">Tools</a>
-    <a href="#workflow">Workflow</a>
-    <a href="#benefits">Benefits</a>
-  </nav>
-
-  <section id="about">
-    <h2>About the Project</h2>
-    <p style="text-align:center; max-width:800px; margin:auto;">
-      This project demonstrates a CI/CD pipeline that automates the process of integrating code,
-      testing applications, building artifacts, and deploying them to production. The goal is to
-      improve software quality, reduce manual effort, and deliver features faster.
-    </p>
-  </section>
-
-  <section id="stages">
-    <h2>Pipeline Stages</h2>
-    <div class="card-container">
-      <div class="card">
-        <h3>Source Code</h3>
-        <p>Developers push code changes to a version control system like GitHub or GitLab.</p>
-      </div>
-      <div class="card">
-        <h3>Build</h3>
-        <p>The application is compiled and dependencies are installed automatically.</p>
-      </div>
-      <div class="card">
-        <h3>Test</h3>
-        <p>Automated unit, integration, and quality checks are executed to validate the code.</p>
-      </div>
-      <div class="card">
-        <h3>Deploy</h3>
-        <p>After successful validation, the application is deployed to staging or production.</p>
-      </div>
+<section class="section">
+    <h2>🛠 Tech Stack</h2>
+    <div class="cards">
+        <div class="card">Git & GitHub</div>
+        <div class="card">AWS EC2</div>
+        <div class="card">Linux (Ubuntu)</div>
+        <div class="card">Shell Scripting</div>
     </div>
-  </section>
+</section>
 
-  <section id="tools">
-    <h2>Tools Used</h2>
-    <div class="tools-list">
-      <div class="tool">GitHub</div>
-      <div class="tool">Jenkins</div>
-      <div class="tool">Docker</div>
-      <div class="tool">Kubernetes</div>
-      <div class="tool">AWS</div>
-      <div class="tool">GitHub Actions</div>
-      <div class="tool">Terraform</div>
-      <div class="tool">SonarQube</div>
+<section class="section">
+    <h2>⚙️ CI/CD Pipeline Flow</h2>
+    <div class="pipeline">
+        <div class="stage">Code</div>
+        <div class="stage">Push</div>
+        <div class="stage">Build</div>
+        <div class="stage">Deploy</div>
+        <div class="stage">Live</div>
     </div>
-  </section>
+</section>
 
-  <section id="workflow">
-    <h2>Workflow</h2>
-    <div class="workflow">
-      <ol>
-        <li>Developer writes code and pushes it to the repository.</li>
-        <li>CI server detects the code change automatically.</li>
-        <li>Build process starts and dependencies are installed.</li>
-        <li>Automated tests and code quality checks are executed.</li>
-        <li>Docker image is created and pushed to a container registry.</li>
-        <li>Deployment is triggered to staging/production environment.</li>
-        <li>Monitoring and validation ensure application health after deployment.</li>
-      </ol>
+<section class="section">
+    <h2>📊 Project Highlights</h2>
+    <div class="cards">
+        <div class="card">
+            🚀 Automated deployment reduces manual effort by 90%
+        </div>
+        <div class="card">
+            ⚡ Faster delivery with continuous integration
+        </div>
+        <div class="card">
+            🔒 Secure SSH-based EC2 deployment
+        </div>
+        <div class="card">
+            🌐 Real-time live website updates
+        </div>
     </div>
-  </section>
+</section>
 
-  <section id="benefits">
-    <h2>Key Benefits</h2>
-    <div class="card-container">
-      <div class="card">
-        <h3>Automation</h3>
-        <p>Reduces manual steps and improves consistency in delivery.</p>
-      </div>
-      <div class="card">
-        <h3>Faster Releases</h3>
-        <p>Enables teams to ship features and fixes more quickly.</p>
-      </div>
-      <div class="card">
-        <h3>Better Quality</h3>
-        <p>Automated testing helps detect issues early in the development lifecycle.</p>
-      </div>
-      <div class="card">
-        <h3>Reliability</h3>
-        <p>Standardized deployment processes reduce production risks and failures.</p>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2026 CI/CD Pipeline Project | Designed for Web Presentation</p>
-  </footer>
+<footer>
+    <p>© 2026 DevOps CI/CD Project | Built by You</p>
+</footer>
 
 </body>
-</html><h2>CI/CD WORKING 🚀</h2>
+</html>
